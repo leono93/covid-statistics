@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import{ MenuItem, FormControl, Select } from "@material-ui/core";
+import{ MenuItem, FormControl, Select, Card, CardContent } from "@material-ui/core";
 import Info from './Info';
+import Map from './Map';
 
 function App() {
   const [countries, setCountries] = useState([]);
@@ -33,6 +34,7 @@ useEffect(() => {
 
   return (
     <div className="app">
+      <div className="app__left">
       <div className="app__header">
       <h1>CoronaStats</h1>
       <FormControl className="app__dropdown">
@@ -47,12 +49,20 @@ useEffect(() => {
       </FormControl>
       <div className="app__stats">
           <Info title="Cases" cases={4} total={12}/>
-
           <Info title="Recovered" cases={1} total={5}/>
-
           <Info title="Deaths" cases={0} total={1}/>
+      <div className="map">
+          <Map/>
       </div>
       </div>
+      </div>
+      </div>
+      <Card className="app__right">
+          <CardContent>
+            <h3>Cases by Country</h3>
+            <h3>New cases</h3>
+          </CardContent>
+      </Card>
     </div>
   );
 }
