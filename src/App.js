@@ -7,6 +7,7 @@ import Map from './Map';
 function App() {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState(['Global']);
+  const [countryInfo, setCountryInfo] = useState({});
 
 useEffect(() => {
   const getCountriesData = async () => {
@@ -30,13 +31,24 @@ useEffect(() => {
   const onCountryChange = async (e) => {
     const countryChange = e.target.value;
     setCountry(countryChange);
+
+    const url = countryChange === 'Global' 
+    ? 'https://disease.sh/v3/covid-19/all' 
+    : `https://disease.sh/v3/covid-19/countries/${countryChange}`;
+
+    await fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      setCountry(countryChange);
+      setCountryInfo(data);
+    })
   }
 
   return (
     <div className="app">
       <div className="app__left">
       <div className="app__header">
-      <h1>CoronaStats</h1>
+      <h1>CoronaStatistics</h1>
       <FormControl className="app__dropdown">
         <Select variant="outlined" onChange={onCountryChange} value={country}>
           <MenuItem value="Global">Global</MenuItem>
@@ -47,14 +59,12 @@ useEffect(() => {
           }
         </Select>
       </FormControl>
+      </div>
       <div className="app__stats">
-          <Info title="Cases" cases={0} total={0}/>
-          <Info title="Recovered" cases={0} total={0}/>
-          <Info title="Deaths" cases={0} total={0}/>
-      <div className="map">
-          <Map/>
-      </div>
-      </div>
+          <Info title="Cases" cases={countryInfo.todayCases} total={countryInfo.cases}/>
+          <Info title="Recovered" cases={countryInfo.todayRecovered} total={countryInfo.recovered}/>
+          <Info title="Deaths" cases={countryInfo.todayDeaths} total={countryInfo.deaths}/>
+      <Map/>
       </div>
       </div>
       <Card className="app__right">
@@ -63,7 +73,7 @@ useEffect(() => {
             <h3>New cases</h3>
           </CardContent>
       </Card>
-    </div>
+      </div>
   );
 }
 
