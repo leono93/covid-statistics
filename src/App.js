@@ -27,8 +27,8 @@ useEffect(() => {
   getCountriesData();
   }, []);
 
-  const onCountryChange = async (event) => {
-    const countryChange = event.target.value;
+  const onCountryChange = async (e) => {
+    const countryChange = e.target.value;
     setCountry(countryChange);
   }
 
@@ -48,9 +48,9 @@ useEffect(() => {
         </Select>
       </FormControl>
       <div className="app__stats">
-          <Info title="Cases" cases={4} total={12}/>
-          <Info title="Recovered" cases={1} total={5}/>
-          <Info title="Deaths" cases={0} total={1}/>
+          <Info title="Cases" cases={0} total={0}/>
+          <Info title="Recovered" cases={0} total={0}/>
+          <Info title="Deaths" cases={0} total={0}/>
       <div className="map">
           <Map/>
       </div>
